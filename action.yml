@@ -1,5 +1,5 @@
-name: 'TESPKG Hello World'
-description: 'Greet someone'
+name: 'TESPKG deploy to dev'
+description: 'deploy to dev'
 inputs:
   who-to-greet:  # id of input
     description: 'Who to greet'
@@ -23,3 +23,5 @@ runs:
       shell: bash
     - run: ${{ github.action_path }}/deploy_to_dev.sh
       shell: bash
+    - run: echo Hello ${{ inputs.who-to-greet }}.
+      shell: bash      
