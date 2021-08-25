@@ -1,11 +1,11 @@
 name: 'TESPKG deploy to dev'
 description: 'deploy to dev'
 inputs:
-  who-to-greet:  # id of input
+  APP_PROJECT_NAME3:  # id of input
     description: 'Who to greet'
     required: true
-    default: 'World'
-  inputENV:  # id of input
+    default: 'along'
+  APP_PROJECT_NAME4:  # id of input
     description: 'Who to greet'
     required: true
     default: 'along'
