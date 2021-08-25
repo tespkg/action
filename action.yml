@@ -19,3 +19,7 @@ runs:
       shell: bash
     - run: ${{ github.action_path }}/goodbye.sh
       shell: bash
+    - run: ${{ github.action_path }}/install_yq_helm.sh
+      shell: bash
+    - run: ${{ github.action_path }}/deploy_to_dev.sh
+      shell: bash
