@@ -1,6 +1,6 @@
 echo "---------- run deploy_to_dev --------------"
 
-echo "who-to-greet is ${who-to-greet}"
+echo ${who-to-greet}
 
 cd helm/${APP_PROJECT_NAME}/${APP_CHART_NAME}
 EXPECT_CHART=`echo ${GITHUB_REPOSITORY} | awk -F "/" '{print $2}'`
