@@ -1,15 +1,19 @@
 name: 'TESPKG deploy to dev'
 description: 'deploy to dev'
 inputs:
-  APP_PROJECT_NAME3:  # id of input
+  APP_PROJECT_NAME2:
+    description: 'Who to greet'
+    required: true
+    default: 'APP_PROJECT_NAME2'
+  APP_PROJECT_NAME3:
     description: 'Who to greet'
     required: true
     default: 'APP_PROJECT_NAME3'
-  APP_PROJECT_NAME4:  # id of input
+  APP_PROJECT_NAME4:
     description: 'Who to greet'
     required: true
     default: 'APP_PROJECT_NAME4'
-  APP_PROJECT_NAME5:  # id of input
+  APP_PROJECT_NAME5:
     description: 'Who to greet'
     required: true
     default: 'APP_PROJECT_NAME5'
