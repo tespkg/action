@@ -20,3 +20,12 @@ yq r --printMode pv values.yaml "common*.image.tag"
 echo "latest GITLAB_IMAGE_TAG is sha-${GITHUB_SHA:0:7}"            
 yq w -i values.yaml "common*.image.tag" sha-${GITHUB_SHA:0:7}
 yq r --printMode pv values.yaml "common*.image.tag"
+
+echo "push the latest SHA: ${GITHUB_SHA:0:7} to manifest repo"
+git config user.name ${GITHUB_ACTOR}
+git config user.email ${GITHUB_ACTOR}@github.com
+git diff
+git add ./
+git commit -m "${GITHUB_REPOSITORY}_${GITHUB_JOB}_${GITHUB_SHA:0:7}_details:${CI_COMMIT_MESSAGE}"
+git push
+echo -e "======================= \n\n you can check your application status with 'user/passwd:readonly/Te****g' at \n\n \033[31m https://g-argocd.fluxble.com/applications/${APP_PROJECT_NAME}-${APP_CHART_NAME}\033[0m \n\n======================="
