@@ -23,4 +23,5 @@ runs:
     - run: ${{ github.action_path }}/deploy_to_dev.sh
       shell: bash
       env:
-        APP_PROJECT_NAME5: ${{ inputs.APP_PROJECT_NAME5 }}      
+        APP_PROJECT_NAME3: ${{ inputs.APP_PROJECT_NAME3 }}    
+        APP_PROJECT_NAME4: ${{ inputs.APP_PROJECT_NAME4 }}    
