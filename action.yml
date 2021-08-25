@@ -4,13 +4,19 @@ inputs:
   APP_PROJECT_NAME3:  # id of input
     description: 'Who to greet'
     required: true
-    default: 'along'
+    default: 'APP_PROJECT_NAME3'
   APP_PROJECT_NAME4:  # id of input
     description: 'Who to greet'
     required: true
-    default: 'along'
+    default: 'APP_PROJECT_NAME4'
+  APP_PROJECT_NAME5:  # id of input
+    description: 'Who to greet'
+    required: true
+    default: 'APP_PROJECT_NAME5'
 runs:
   using: "composite"
   steps:
     - run: ${{ github.action_path }}/deploy_to_dev.sh
       shell: bash
+      env:
+        APP_PROJECT_NAME5: ${{ inputs.APP_PROJECT_NAME5 }}      
