@@ -20,6 +20,7 @@ inputs:
   GITLAB_REGISTRY:
     description: 'GITLAB_REGISTRY'
     required: false
+    default: 'registry.gitlab.com/target-digital-transformation/devops'
   GITHUB_REPOSITORY:
     description: 'GITHUB_REPOSITORY'
     required: false
