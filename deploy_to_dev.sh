@@ -2,6 +2,8 @@ echo "---------- run deploy_to_dev --------------"
 
 echo ${who-to-greet}
 echo "for is ${inputENV}"
+echo "APP_PROJECT_NAME is ${APP_PROJECT_NAME}"
+echo "APP_PROJECT_NAME2 is ${APP_PROJECT_NAME2}"
 
 cd helm/${APP_PROJECT_NAME}/${APP_CHART_NAME}
 EXPECT_CHART=`echo ${GITHUB_REPOSITORY} | awk -F "/" '{print $2}'`
