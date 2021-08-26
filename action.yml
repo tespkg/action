@@ -1,8 +1,8 @@
-name: 'TESPKG deploy to dev'
-description: 'deploy to dev'
+name: 'TESPKG deploy to test'
+description: 'deploy to test'
 
 runs:
   using: "composite"
   steps:
-    - run: ${{ github.action_path }}/deploy_to_dev.sh
+    - run: ${{ github.action_path }}/deploy_to_test.sh
       shell: bash
