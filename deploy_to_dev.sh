@@ -31,10 +31,14 @@ yq w -i values.yaml "common*.image.tag" ${GITHUB_SHA:0:8}
 yq r --printMode pv values.yaml "common*.image.tag"
 
 if [ "$SECOND_MODULE" != "false" ];then
-for w in `echo ${SECOND_MODULE_FOR_COMMON}` do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_SECOND_MODULE}; done
+  for w in `echo ${SECOND_MODULE_FOR_COMMON}`;
+  do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_SECOND_MODULE};
+  done
 fi
 if [ "$THIRD_MODULE" != "false" ];then
-for w in `echo ${THIRD_MODULE_FOR_COMMON}` do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_THIRD_MODULE}; done
+  for w in `echo ${THIRD_MODULE_FOR_COMMON}`;
+  do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_THIRD_MODULE};
+  done
 fi
 
 yq r --printMode pv values.yaml "common*.image.tag"
