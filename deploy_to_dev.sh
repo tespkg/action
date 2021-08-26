@@ -16,12 +16,14 @@ fi
 if [ "$SECOND_MODULE" != "false" ];then
 echo ${SECOND_MODULE_FOR_COMMON} | awk  '{print $1}'
 COMMON_FOR_SECOND_MODULE=`echo ${SECOND_MODULE_FOR_COMMON} | awk  '{print $1}'`
-TAG_FOR_SECOND_MODULE=`yq r --printMode pv values.yaml ${COMMON_FOR_SECOND_MODULE}.image.tag`
+TAG_FOR_SECOND_MODULE=`yq r pv values.yaml ${COMMON_FOR_SECOND_MODULE}.image.tag`
+echo "TAG_FOR_SECOND_MODULE is ${TAG_FOR_SECOND_MODULE}"
 fi
 if [ "$THIRD_MODULE" != "false" ];then
 echo ${THIRD_MODULE_FOR_COMMON} | awk  '{print $1}'
 COMMON_FOR_THIRD_MODULE=`echo ${THIRD_MODULE_FOR_COMMON} | awk  '{print $1}'`
-TAG_FOR_THIRD_MODULE=`yq r --printMode pv values.yaml ${COMMON_FOR_THIRD_MODULE}.image.tag`
+TAG_FOR_THIRD_MODULE=`yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.tag`
+echo "TAG_FOR_THIRD_MODULE is ${TAG_FOR_THIRD_MODULE}"
 fi
 
 echo "list current common*.image.tag"
