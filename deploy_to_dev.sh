@@ -1,11 +1,5 @@
 echo "---------- run deploy_to_dev --------------"
 
-echo "APP_PROJECT_NAME2 is ${APP_PROJECT_NAME2}"
-echo "APP_PROJECT_NAME3 is ${APP_PROJECT_NAME3}"
-echo "APP_PROJECT_NAME4 is ${APP_PROJECT_NAME4}"
-echo "APP_PROJECT_NAME5 is ${APP_PROJECT_NAME5}"
-# echo "GITLAB_REGISTRY is ${GITLAB_REGISTRY}"
-# echo "GITHUB_REPOSITORY is ${GITHUB_REPOSITORY}"
 echo "SECOND_MODULE is ${SECOND_MODULE}"
 echo "THIRD_MODULE is ${THIRD_MODULE}"
 
@@ -18,16 +12,16 @@ echo "TARGET_CHART $TARGET_CHART not same as EXPECT_CHART $EXPECT_CHART, please 
 exit 1
 fi
 
-# echo "list current common*.image.repository"
-# yq r --printMode pv values.yaml "common*.image.repository"
-# echo "latest GITLAB_IMAGE_NAME is ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}"
-# yq w -i values.yaml "common*.image.repository" ${GITLAB_REGISTRY}/${GITHUB_REPOSITORY}
-# yq r --printMode pv values.yaml "common*.image.repository"
 
 if [ "$SECOND_MODULE" != "false" ];then
 echo ${SECOND_MODULE_FOR_COMMON} | awk  '{print $1}'
 COMMON_FOR_SECOND_MODULE=`echo ${SECOND_MODULE_FOR_COMMON} | awk  '{print $1}'`
 TAG_FOR_SECOND_MODULE=`yq r --printMode pv values.yml ${COMMON_FOR_SECOND_MODULE}.image.tag`
+fi
+if [ "$THIRD_MODULE" != "false" ];then
+echo ${THIRD_MODULE_FOR_COMMON} | awk  '{print $1}'
+COMMON_FOR_THIRD_MODULE=`echo ${THIRD_MODULE_FOR_COMMON} | awk  '{print $1}'`
+TAG_FOR_THIRD_MODULE=`yq r --printMode pv values.yml ${COMMON_FOR_THIRD_MODULE}.image.tag`
 fi
 
 echo "list current common*.image.tag"
@@ -38,6 +32,9 @@ yq r --printMode pv values.yaml "common*.image.tag"
 
 if [ "$SECOND_MODULE" != "false" ];then
 for w in `echo ${SECOND_MODULE_FOR_COMMON}` do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_SECOND_MODULE}; done
+fi
+if [ "$THIRD_MODULE" != "false" ];then
+for w in `echo ${THIRD_MODULE_FOR_COMMON}` do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_THIRD_MODULE}; done
 fi
 
 yq r --printMode pv values.yaml "common*.image.tag"
