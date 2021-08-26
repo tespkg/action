@@ -13,13 +13,13 @@ exit 1
 fi
 
 
-if [ "$SECOND_MODULE" != "false" ];then
+if [ "$SECOND_MODULE" == "false" ];then
 echo ${SECOND_MODULE_FOR_COMMON} | awk  '{print $1}'
 COMMON_FOR_SECOND_MODULE=`echo ${SECOND_MODULE_FOR_COMMON} | awk  '{print $1}'`
 TAG_FOR_SECOND_MODULE=`yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.tag`
 echo "TAG_FOR_SECOND_MODULE is ${TAG_FOR_SECOND_MODULE}"
 fi
-if [ "$THIRD_MODULE" != "false" ];then
+if [ "$THIRD_MODULE" == "false" ];then
 echo ${THIRD_MODULE_FOR_COMMON} | awk  '{print $1}'
 COMMON_FOR_THIRD_MODULE=`echo ${THIRD_MODULE_FOR_COMMON} | awk  '{print $1}'`
 TAG_FOR_THIRD_MODULE=`yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.tag`
@@ -32,12 +32,12 @@ echo "latest GITLAB_IMAGE_TAG is ${GITHUB_SHA:0:8}"
 yq w -i values.yaml "common*.image.tag" ${GITHUB_SHA:0:8}
 yq r --printMode pv values.yaml "common*.image.tag"
 
-if [ "$SECOND_MODULE" != "false" ];then
+if [ "$SECOND_MODULE" == "false" ];then
   for w in `echo ${SECOND_MODULE_FOR_COMMON}`;
   do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_SECOND_MODULE};
   done
 fi
-if [ "$THIRD_MODULE" != "false" ];then
+if [ "$THIRD_MODULE" == "false" ];then
   for w in `echo ${THIRD_MODULE_FOR_COMMON}`;
   do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_THIRD_MODULE};
   done
