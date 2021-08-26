@@ -1,8 +1,14 @@
 name: 'TESPKG deploy to test'
 description: 'deploy to test'
-
+inputs:
+  TES_ENV:
+    description: 'environment for deployment'
+    required: false
+    default: 'test'
 runs:
   using: "composite"
   steps:
     - run: ${{ github.action_path }}/deploy_to_test.sh
       shell: bash
+      env:
+        TES_ENV: ${{ inputs.TES_ENV }}
