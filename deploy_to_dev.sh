@@ -25,7 +25,6 @@ fi
 # yq r --printMode pv values.yaml "common*.image.repository"
 
 if [ "$SECOND_MODULE" != "false" ];then
-SECOND_MODULE_FOR_COMMON="common2 common3"
 echo ${SECOND_MODULE_FOR_COMMON} | awk  '{print $1}'
 COMMON_FOR_SECOND_MODULE=`echo ${SECOND_MODULE_FOR_COMMON} | awk  '{print $1}'`
 TAG_FOR_SECOND_MODULE=`yq r --printMode pv values.yml ${COMMON_FOR_SECOND_MODULE}.image.tag`
