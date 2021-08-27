@@ -13,36 +13,40 @@ exit 1
 fi
 
 if [ "$SECOND_MODULE" == "ignore" ] ;then
-echo "need keep the image for ${SECOND_MODULE_FOR_COMMON}, image is: ${GITLAB_IMAGE_NAME_SECOND_MODULE}"
+echo "---------- need keep the image for ${SECOND_MODULE_FOR_COMMON}, image is: ${GITLAB_IMAGE_NAME_SECOND_MODULE} -----------"
 COMMON_FOR_SECOND_MODULE=`echo ${SECOND_MODULE_FOR_COMMON} | awk  '{print $1}'`
 TAG_FOR_SECOND_MODULE=`yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.tag`
 fi
 
 if [ "$THIRD_MODULE" == "ignore" ] ;then
-echo "need keep the image for ${THIRD_MODULE_FOR_COMMON}, image is: ${GITLAB_IMAGE_NAME_SECOND_MODULE}"
+echo "---------- need keep the image for ${THIRD_MODULE_FOR_COMMON}, image is: ${GITLAB_IMAGE_NAME_SECOND_MODULE} ------------"
 COMMON_FOR_THIRD_MODULE=`echo ${THIRD_MODULE_FOR_COMMON} | awk  '{print $1}'`
 TAG_FOR_THIRD_MODULE=`yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.tag`
 fi
 
-
-
-echo "list current common*.image.tag"
+echo "-------- list current common*.image.tag --------"
 yq r --printMode pv values.yaml "common*.image.tag"
-echo "latest GITLAB_IMAGE_TAG is ${GITHUB_SHA:0:8}"            
+echo "-------- replace common*.image.tag to ${GITHUB_SHA:0:8} ---------"
 yq w -i values.yaml "common*.image.tag" ${GITHUB_SHA:0:8}
 yq r --printMode pv values.yaml "common*.image.tag"
 
-if [ "$SECOND_MODULE" == "false" ];then
+if [ "$SECOND_MODULE" != "ignore" ] || [ "$SECOND_MODULE" != "null" ] && [ "$SECOND_MODULE" != "" ] ;
+then
+  echo "rollback the $SECOND_MODULE image tag"
   for w in `echo ${SECOND_MODULE_FOR_COMMON}`;
   do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_SECOND_MODULE};
   done
 fi
-if [ "$THIRD_MODULE" == "false" ];then
+
+if [ "$THIRD_MODULE" != "ignore" ] && [ "$THIRD_MODULE" != "null" ] && [ "$THIRD_MODULE" != "" ] ;
+then
+  echo "rollback the $THIRD_MODULE image tag"
   for w in `echo ${THIRD_MODULE_FOR_COMMON}`;
   do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_THIRD_MODULE};
   done
 fi
 
+echo "-------- list latest common*.image.tag --------"
 yq r --printMode pv values.yaml "common*.image.tag"
 
 echo "push the latest SHA: ${GITHUB_SHA:0:8} to manifest repo"
