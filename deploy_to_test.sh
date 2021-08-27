@@ -32,7 +32,40 @@ if [[ ${IMAGE_TAG} == v* ]]; then IMAGE_TAG=`echo ${IMAGE_TAG:1}`; fi
 echo "replace appVersion and version "
 yq w -i ${APP_CHART_NAME}/Chart.yaml appVersion  --style=double ${IMAGE_TAG}
 yq w -i ${APP_CHART_NAME}/Chart.yaml version  --style=double ${IMAGE_TAG}
+
+if [ "$SECOND_MODULE" == "ignore" ] ;then
+echo "------  Reserved the image for ${SECOND_MODULE_FOR_COMMON} due to SECOND_MODULE='ingore'------"
+COMMON_FOR_SECOND_MODULE=`echo ${SECOND_MODULE_FOR_COMMON} | awk  '{print $1}'`
+echo "------ Name of the image.repo to be reserved:  `yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.repository`"
+echo "------ Name of the image.tag to be reserved:   `yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.tag`"
+TAG_FOR_SECOND_MODULE=`yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.tag`
+fi
+if [ "$THIRD_MODULE" == "ignore" ] ;then
+echo "------ Reserved image for ${THIRD_MODULE_FOR_COMMON} due to THIRD_MODULE='ingore------"
+COMMON_FOR_THIRD_MODULE=`echo ${THIRD_MODULE_FOR_COMMON} | awk  '{print $1}'`
+echo "------ Name of the image.repo to be reserved:  `yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.repository`"
+echo "------ Name of the image.tag to be reserved:   `yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.tag`"
+TAG_FOR_THIRD_MODULE=`yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.tag`
+fi
+
+echo "------ replace common*.image.tag to ${IMAGE_TAG} ------"
 yq w -i ${APP_CHART_NAME}/values.yaml "common*.image.tag" ${IMAGE_TAG}
+
+
+if [ "$SECOND_MODULE" == "ignore" ];
+then
+  echo "------ rollback the SECOND_MODULE ------"
+  for w in `echo ${SECOND_MODULE_FOR_COMMON}`;
+  do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_SECOND_MODULE} && yq r values.yaml ${w}.image.tag;
+  done
+fi
+if [ "$THIRD_MODULE" == "ignore" ];
+then
+  echo "------ rollback the THIRD_MODULE ------"
+  for w in `echo ${THIRD_MODULE_FOR_COMMON}`;
+  do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_THIRD_MODULE} && yq r values.yaml ${w}.image.tag;
+  done
+fi
 
 helmv3 repo add meeraspace ${{ secrets.HELM_REPO_QA }} --username=${{ secrets.HELM_USER }} --password=${{ secrets.HELM_PASSWORD }}
 helmv3 plugin install https://github.com/chartmuseum/helm-push
