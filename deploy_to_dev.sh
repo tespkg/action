@@ -13,14 +13,18 @@ exit 1
 fi
 
 if [ "$SECOND_MODULE" == "ignore" ] ;then
-echo "---------- need keep the image for ${SECOND_MODULE_FOR_COMMON}, image is: ${GITLAB_IMAGE_NAME_SECOND_MODULE} -----------"
+echo "---------- need keep the image for ${SECOND_MODULE_FOR_COMMON} -----------"
 COMMON_FOR_SECOND_MODULE=`echo ${SECOND_MODULE_FOR_COMMON} | awk  '{print $1}'`
+echo "---------- Name of the image.repo to be reserved:  `yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.repo` -----------"
+echo "---------- Name of the image.tag to be reserved:   `yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.tag` -----------"
 TAG_FOR_SECOND_MODULE=`yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.tag`
 fi
 
 if [ "$THIRD_MODULE" == "ignore" ] ;then
-echo "---------- need keep the image for ${THIRD_MODULE_FOR_COMMON}, image is: ${GITLAB_IMAGE_NAME_SECOND_MODULE} ------------"
+echo "---------- need keep the image for ${THIRD_MODULE_FOR_COMMON} ------------"
 COMMON_FOR_THIRD_MODULE=`echo ${THIRD_MODULE_FOR_COMMON} | awk  '{print $1}'`
+echo "---------- Name of the image.repo to be reserved:  `yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.repo` -----------"
+echo "---------- Name of the image.tag to be reserved:   `yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.tag` -----------"
 TAG_FOR_THIRD_MODULE=`yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.tag`
 fi
 
