@@ -13,17 +13,17 @@ exit 1
 fi
 
 if [ "$SECOND_MODULE" == "ignore" ] ;then
-echo "---------- need keep the image for ${SECOND_MODULE_FOR_COMMON} -----------"
+echo "----------  Reserved the image for ${SECOND_MODULE_FOR_COMMON} -----------"
 COMMON_FOR_SECOND_MODULE=`echo ${SECOND_MODULE_FOR_COMMON} | awk  '{print $1}'`
-echo "---------- Name of the image.repo to be reserved:  `yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.repo` -----------"
+echo "---------- Name of the image.repo to be reserved:  `yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.repository` -----------"
 echo "---------- Name of the image.tag to be reserved:   `yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.tag` -----------"
 TAG_FOR_SECOND_MODULE=`yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.tag`
 fi
 
 if [ "$THIRD_MODULE" == "ignore" ] ;then
-echo "---------- need keep the image for ${THIRD_MODULE_FOR_COMMON} ------------"
+echo "---------- Reserved image for ${THIRD_MODULE_FOR_COMMON} ------------"
 COMMON_FOR_THIRD_MODULE=`echo ${THIRD_MODULE_FOR_COMMON} | awk  '{print $1}'`
-echo "---------- Name of the image.repo to be reserved:  `yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.repo` -----------"
+echo "---------- Name of the image.repo to be reserved:  `yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.repository` -----------"
 echo "---------- Name of the image.tag to be reserved:   `yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.tag` -----------"
 TAG_FOR_THIRD_MODULE=`yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.tag`
 fi
@@ -36,7 +36,7 @@ yq r --printMode pv values.yaml "common*.image.tag"
 
 if [ "$SECOND_MODULE" != "ignore" ] || [ "$SECOND_MODULE" != "null" ] && [ "$SECOND_MODULE" != "" ] ;
 then
-  echo "rollback the $SECOND_MODULE image tag"
+  echo "------ rollback the SECOND_MODULE: $SECOND_MODULE image tag ------"
   for w in `echo ${SECOND_MODULE_FOR_COMMON}`;
   do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_SECOND_MODULE};
   done
@@ -44,7 +44,7 @@ fi
 
 if [ "$THIRD_MODULE" != "ignore" ] && [ "$THIRD_MODULE" != "null" ] && [ "$THIRD_MODULE" != "" ] ;
 then
-  echo "rollback the $THIRD_MODULE image tag"
+  echo "------ rollback the THIRD_MODULE: $THIRD_MODULE image tag ------"
   for w in `echo ${THIRD_MODULE_FOR_COMMON}`;
   do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_THIRD_MODULE};
   done
