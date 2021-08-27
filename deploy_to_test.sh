@@ -73,6 +73,7 @@ then
   done
 fi
 
+echo "----- list final common*.image.tag -----"
 yq r --printMode pv values.yaml "common*.image.tag"
 
 
