@@ -1,4 +1,4 @@
-echo "------ run deploy_to_dev -------"
+echo "------ run deploy_to_dev ------"
 
 echo "SECOND_MODULE is ${SECOND_MODULE}"
 echo "THIRD_MODULE is ${THIRD_MODULE}"
@@ -13,44 +13,44 @@ exit 1
 fi
 
 if [ "$SECOND_MODULE" == "ignore" ] ;then
-echo "------  Reserved the image for ${SECOND_MODULE_FOR_COMMON} -------"
+echo "------  Reserved the image for ${SECOND_MODULE_FOR_COMMON} ------"
 COMMON_FOR_SECOND_MODULE=`echo ${SECOND_MODULE_FOR_COMMON} | awk  '{print $1}'`
-echo "------ Name of the image.repo to be reserved:  `yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.repository` -------"
-echo "------ Name of the image.tag to be reserved:   `yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.tag` -------"
+echo "------ Name of the image.repo to be reserved:  `yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.repository`"
+echo "------ Name of the image.tag to be reserved:   `yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.tag`"
 TAG_FOR_SECOND_MODULE=`yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.tag`
 fi
 
 if [ "$THIRD_MODULE" == "ignore" ] ;then
-echo "------ Reserved image for ${THIRD_MODULE_FOR_COMMON} -------"
+echo "------ Reserved image for ${THIRD_MODULE_FOR_COMMON} ------"
 COMMON_FOR_THIRD_MODULE=`echo ${THIRD_MODULE_FOR_COMMON} | awk  '{print $1}'`
-echo "------ Name of the image.repo to be reserved:  `yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.repository` -------"
-echo "------ Name of the image.tag to be reserved:   `yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.tag` -------"
+echo "------ Name of the image.repo to be reserved:  `yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.repository`"
+echo "------ Name of the image.tag to be reserved:   `yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.tag`"
 TAG_FOR_THIRD_MODULE=`yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.tag`
 fi
 
-echo "------- list current common*.image.tag -------"
+echo "------ list current common*.image.tag ------"
 yq r --printMode pv values.yaml "common*.image.tag"
-echo "------- replace common*.image.tag to ${GITHUB_SHA:0:8} -------"
+echo "------ replace common*.image.tag to ${GITHUB_SHA:0:8} ------"
 yq w -i values.yaml "common*.image.tag" ${GITHUB_SHA:0:8}
 yq r --printMode pv values.yaml "common*.image.tag"
 
 if [ "$SECOND_MODULE" == "ignore" ];
 then
-  echo "------ rollback the SECOND_MODULE: $SECOND_MODULE image tag ------"
+  echo "------ rollback the SECOND_MODULE: $SECOND_MODULE ------"
   for w in `echo ${SECOND_MODULE_FOR_COMMON}`;
-  do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_SECOND_MODULE};
+  do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_SECOND_MODULE} && yq r values.yaml ${w}.image.tag;
   done
 fi
 
 if [ "$THIRD_MODULE" == "ignore" ];
 then
-  echo "------ rollback the THIRD_MODULE: $THIRD_MODULE image tag ------"
+  echo "------ rollback the THIRD_MODULE: $THIRD_MODULE ------"
   for w in `echo ${THIRD_MODULE_FOR_COMMON}`;
-  do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_THIRD_MODULE};
+  do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_THIRD_MODULE} && yq r values.yaml ${w}.image.tag;
   done
 fi
 
-echo "------- list latest common*.image.tag -------"
+echo "------ list latest common*.image.tag ------"
 yq r --printMode pv values.yaml "common*.image.tag"
 
 echo "push the latest SHA: ${GITHUB_SHA:0:8} to manifest repo"
