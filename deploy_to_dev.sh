@@ -36,7 +36,7 @@ yq r --printMode pv values.yaml "common*.image.tag"
 
 if [ "$SECOND_MODULE" == "ignore" ];
 then
-  echo "------ rollback the SECOND_MODULE: $SECOND_MODULE ------"
+  echo "------ rollback the SECOND_MODULE ------"
   for w in `echo ${SECOND_MODULE_FOR_COMMON}`;
   do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_SECOND_MODULE} && yq r values.yaml ${w}.image.tag;
   done
@@ -44,7 +44,7 @@ fi
 
 if [ "$THIRD_MODULE" == "ignore" ];
 then
-  echo "------ rollback the THIRD_MODULE: $THIRD_MODULE ------"
+  echo "------ rollback the THIRD_MODULE ------"
   for w in `echo ${THIRD_MODULE_FOR_COMMON}`;
   do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_THIRD_MODULE} && yq r values.yaml ${w}.image.tag;
   done
