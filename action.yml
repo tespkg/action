@@ -5,6 +5,18 @@ inputs:
     description: 'environment for deployment'
     required: false
     default: 'test'
+  HELM_REPO:
+    description: 'HELM_REPO'
+    required: false
+    default: 'https://chartmuseum.dev.meeraspace.com/'
+  HELM_USER:
+    description: 'HELM_USER'
+    required: false
+    default: 'root'
+  HELM_PASSWORD:
+    description: 'HELM_PASSWORD'
+    required: false
+    default: 'root'
 runs:
   using: "composite"
   steps:
@@ -12,3 +24,6 @@ runs:
       shell: bash
       env:
         TES_ENV: ${{ inputs.TES_ENV }}
+        TES_ENV: ${{ inputs.HELM_REPO }}
+        TES_ENV: ${{ inputs.HELM_USER }}
+        TES_ENV: ${{ inputs.HELM_PASSWORD }}

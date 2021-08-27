@@ -78,6 +78,7 @@ yq r --printMode pv values.yaml "common*.image.tag"
 
 
 cd ..
-helmv3 repo add meeraspace ${{ secrets.HELM_REPO_QA }} --username=${{ secrets.HELM_USER }} --password=${{ secrets.HELM_PASSWORD }}
+# helmv3 repo add meeraspace ${{ secrets.HELM_REPO_QA }} --username=${{ secrets.HELM_USER }} --password=${{ secrets.HELM_PASSWORD }}
+helmv3 repo add meeraspace ${HELM_REPO} --username=${HELM_USER} --password=${HELM_PASSWORD}
 helmv3 plugin install https://github.com/chartmuseum/helm-push
 helmv3 push ${APP_CHART_NAME} meeraspace
