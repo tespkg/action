@@ -50,8 +50,12 @@ echo "------ Name of the image.tag to be reserved:   `yq r values.yaml ${COMMON_
 TAG_FOR_THIRD_MODULE=`yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.tag`
 fi
 
+echo "----- list current common*.image.tag -----"
+yq r --printMode pv values.yaml "common*.image.tag"
 echo "------ replace common*.image.tag to ${IMAGE_TAG} ------"
 yq w -i values.yaml "common*.image.tag" ${IMAGE_TAG}
+echo "----- list latest common*.image.tag -----"
+yq r --printMode pv values.yaml "common*.image.tag"
 
 
 if [ "$SECOND_MODULE" == "ignore" ];
@@ -68,6 +72,10 @@ then
   do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_THIRD_MODULE} && yq r values.yaml ${w}.image.tag;
   done
 fi
+
+yq r --printMode pv values.yaml "common*.image.tag"
+
+
 cd ..
 helmv3 repo add meeraspace ${{ secrets.HELM_REPO_QA }} --username=${{ secrets.HELM_USER }} --password=${{ secrets.HELM_PASSWORD }}
 helmv3 plugin install https://github.com/chartmuseum/helm-push
