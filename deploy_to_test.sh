@@ -24,7 +24,7 @@ else
   fi
 fi
 
-env
+# env
 
 echo "------cd 0-env-${TES_ENV}/${APP_CHART_NAME} -----"
 cd 0-env-${TES_ENV}/${APP_CHART_NAME}
