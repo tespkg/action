@@ -10,5 +10,5 @@ runs:
   steps:
     - run: ${{ github.action_path }}/deploy_to_dev.sh
       shell: bash
-      env:
-        APP_CHART_NAME: ${{ inputs.APP_CHART_NAME }}
+      # env:
+      #   APP_CHART_NAME: ${{ inputs.APP_CHART_NAME }}
