@@ -7,7 +7,7 @@ echo "APP_CHART_NAME: ${APP_CHART_NAME}"
 echo "SECOND_MODULE is ${SECOND_MODULE}"
 echo "THIRD_MODULE is ${THIRD_MODULE}"
 
-cd env-dev/${{ github.repository }}
+cd env-dev/${APP_CHART_NAME}
 
 if [ "$SECOND_MODULE" == "ignore" ] ;then
 echo "------  Reserved the image for ${SECOND_MODULE_FOR_COMMON} due to SECOND_MODULE='ingore'------"
