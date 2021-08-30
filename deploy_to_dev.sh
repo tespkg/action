@@ -1,9 +1,12 @@
 echo "------ run deploy_to_dev  debug------"
 
 echo "APP_PROJECT_NAME: $APP_PROJECT_NAME"
-echo "APP_CHART_NAME: $APP_PROJECT_NAME "
+echo "APP_CHART_NAME: $APP_CHART_NAME "
 
+
+echo " 22222"
 echo " github.repository: ${{ github.repository }}"
+echo " 33333"
 
 echo "APP_CHART_NAME: $APP_PROJECT_NAME "
 
