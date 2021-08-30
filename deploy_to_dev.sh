@@ -7,8 +7,6 @@ echo " github.repository: ${{ github.repository }}"
 
 echo "APP_CHART_NAME: $APP_PROJECT_NAME "
 
------
-
 # echo "SECOND_MODULE is ${SECOND_MODULE}"
 # echo "THIRD_MODULE is ${THIRD_MODULE}"
 
