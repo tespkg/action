@@ -9,8 +9,8 @@ echo "THIRD_MODULE is ${THIRD_MODULE}"
 
 cd env-dev/${APP_CHART_NAME}
 if [ $? != 0 ]; then
-    echo "err"
-    exit 0
+    echo "err, No such file or directory env-dev/${APP_CHART_NAME} "
+    exit 1
 fi
 
 if [ "$SECOND_MODULE" == "ignore" ] ;then
