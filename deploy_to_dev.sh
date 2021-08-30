@@ -1,14 +1,17 @@
 echo "------ run deploy_to_dev  debug------"
 
+
+echo "APP_SOURCE_REPO: $APP_SOURCE_REPO"
+APP_CHART_NAME=`echo ${APP_SOURCE_REPO} | awk -F "/" '{print $2}'`
+echo "APP_CHART_NAME: ${APP_CHART_NAME}"
+
+APP_CHART_NAME_OP2=`echo ${GITHUB_REPOSITORY} | awk -F "/" '{print $2}'`
+echo "APP_CHART_NAME_OP2: ${APP_CHART_NAME_OP2}"
+
+
 echo "APP_PROJECT_NAME: $APP_PROJECT_NAME"
-echo "APP_CHART_NAME: $APP_CHART_NAME "
+echo "APP_CHART_NAME: $APP_CHART_NAME"
 
-
-echo " 22222"
-echo " github.repository: ${{ github.repository }}"
-echo " 33333"
-
-echo "APP_CHART_NAME: $APP_PROJECT_NAME "
 
 # echo "SECOND_MODULE is ${SECOND_MODULE}"
 # echo "THIRD_MODULE is ${THIRD_MODULE}"
