@@ -1,4 +1,4 @@
-echo "------ run deploy_to_dev ------"
+echo "------ run deploy_to_dev  debug------"
 
 echo "APP_PROJECT_NAME: $APP_PROJECT_NAME"
 echo "APP_CHART_NAME: $APP_PROJECT_NAME "
