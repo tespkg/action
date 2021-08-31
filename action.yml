@@ -1,8 +1,14 @@
 name: 'TESPKG deploy to dev'
 description: 'deploy to dev'
-
+inputs:
+  ALIAS_GITHUB_REPOSITORY:
+    description: 'ALIAS_GITHUB_REPOSITORY'
+    required: true
+    default: ${{ github.repository }}
 runs:
   using: "composite"
   steps:
     - run: ${{ github.action_path }}/deploy_to_dev.sh
       shell: bash
+      env:
+        ALIAS_GITHUB_REPOSITORY: ${{ inputs.ALIAS_GITHUB_REPOSITORY }}
