@@ -60,5 +60,12 @@ git config user.email ${GITHUB_ACTOR}@github.com
 git diff
 git add ./
 git commit -m "${GITHUB_REPOSITORY}_${GITHUB_JOB}_${GITHUB_SHA:0:8}_details:${CI_COMMIT_MESSAGE}"
+git pull
 git push
+## error: failed to push some refs to 'git@github.com:tespkg/tes_manifests.git',
+## usually caused by another repository pushing
+if [ $? == 1 ]; then
+    git pull
+    git push
+fi
 echo -e "======================= \n\n you can check your application status with 'user/passwd:readonly/Te****g' at \n\n \033[31m https://g-argocd.fluxble.com/applications/${APP_CHART_NAME}\033[0m \n\n======================="
