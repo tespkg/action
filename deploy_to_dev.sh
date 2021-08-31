@@ -9,7 +9,7 @@ echo "THIRD_MODULE is ${THIRD_MODULE}"
 
 cd env-dev/${APP_CHART_NAME}
 if [ $? != 0 ]; then
-    echo "err, No such file or directory env-dev/${APP_CHART_NAME} "
+    echo "err, no such directory env-dev/${APP_CHART_NAME} "
     exit 1
 fi
 
@@ -54,11 +54,11 @@ fi
 echo "------ list latest common*.image.tag ------"
 yq r --printMode pv values.yaml "common*.image.tag"
 
-# echo "push the latest SHA: ${GITHUB_SHA:0:8} to manifest repo"
-# git config user.name ${GITHUB_ACTOR}
-# git config user.email ${GITHUB_ACTOR}@github.com
-# git diff
-# git add ./
-# git commit -m "${GITHUB_REPOSITORY}_${GITHUB_JOB}_${GITHUB_SHA:0:8}_details:${CI_COMMIT_MESSAGE}"
-# git push
-# echo -e "======================= \n\n you can check your application status with 'user/passwd:readonly/Te****g' at \n\n \033[31m https://g-argocd.fluxble.com/applications/${APP_PROJECT_NAME}-${APP_CHART_NAME}\033[0m \n\n======================="
+echo "push the latest SHA: ${GITHUB_SHA:0:8} to the manifest repo path: env-dev/${APP_CHART_NAME}"
+git config user.name ${GITHUB_ACTOR}
+git config user.email ${GITHUB_ACTOR}@github.com
+git diff
+git add ./
+git commit -m "${GITHUB_REPOSITORY}_${GITHUB_JOB}_${GITHUB_SHA:0:8}_details:${CI_COMMIT_MESSAGE}"
+git push
+echo -e "======================= \n\n you can check your application status with 'user/passwd:readonly/Te****g' at \n\n \033[31m https://g-argocd.fluxble.com/applications/${APP_CHART_NAME}\033[0m \n\n======================="
