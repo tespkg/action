@@ -1,5 +1,10 @@
 echo "---------- run ${GITHUB_JOB} --------------"
 
+if [ "${TES_ENV}" == "" ]; then
+    echo "skip ${GITHUB_JOB} } "
+    exit 1
+fi
+
 echo "ALIAS_GITHUB_REPOSITORY: ${ALIAS_GITHUB_REPOSITORY}"
 APP_CHART_NAME=`echo ${ALIAS_GITHUB_REPOSITORY} | awk -F "/" '{print $2}'`
 echo "APP_CHART_NAME: ${APP_CHART_NAME}"
