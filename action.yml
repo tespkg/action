@@ -1,6 +1,10 @@
 name: 'TESPKG deploy to test'
 description: 'deploy to test'
 inputs:
+  ALIAS_GITHUB_REPOSITORY:
+    description: 'ALIAS_GITHUB_REPOSITORY'
+    required: true
+    default: ${{ github.repository }}  
   TES_ENV:
     description: 'environment for deployment'
     required: false
@@ -27,3 +31,4 @@ runs:
         HELM_REPO: ${{ inputs.HELM_REPO }}
         HELM_USER: ${{ inputs.HELM_USER }}
         HELM_PASSWORD: ${{ inputs.HELM_PASSWORD }}
+        ALIAS_GITHUB_REPOSITORY: ${{ inputs.ALIAS_GITHUB_REPOSITORY }}        
