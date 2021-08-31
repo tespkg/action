@@ -1,4 +1,4 @@
-echo "---------- run deploy_to_${GITHUB_JOB} --------------"
+echo "---------- run ${GITHUB_JOB} --------------"
 
 echo "ALIAS_GITHUB_REPOSITORY: ${ALIAS_GITHUB_REPOSITORY}"
 APP_CHART_NAME=`echo ${ALIAS_GITHUB_REPOSITORY} | awk -F "/" '{print $2}'`
