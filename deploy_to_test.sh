@@ -77,3 +77,21 @@ cd ..
 helmv3 repo add meeraspace ${HELM_REPO} --username=${HELM_USER} --password=${HELM_PASSWORD}
 helmv3 plugin install https://github.com/chartmuseum/helm-push
 helmv3 push ${APP_CHART_NAME} meeraspace --force
+
+echo "push the latest SHA: ${GITHUB_SHA:0:8} to the manifest repo ${ALIAS_GITHUB_REPOSITORY}"
+git config user.name ${GITHUB_ACTOR}
+git config user.email ${GITHUB_ACTOR}@github.com
+git diff
+git add env-${TES_ENV}/${APP_CHART_NAME}
+git pull
+git commit -m "${GITHUB_REPOSITORY}_${GITHUB_JOB}_${GITHUB_SHA:0:8}_details:${CI_COMMIT_MESSAGE}"
+git push
+## error: failed to push some refs to 'git@github.com:tespkg/tes_manifests.git',
+## usually caused by another repository pushing
+if [ $? == 1 ]; then
+    git stash
+    git pull -r
+    git stash apply
+    git push
+fi
+echo -e "======================= \n\n you can check your application status with 'user/passwd:readonly/Te****g' at \n\n \033[31m https://g-argocd.fluxble.com/applications/${APP_CHART_NAME}\033[0m \n\n======================="
