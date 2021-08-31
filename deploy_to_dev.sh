@@ -1,6 +1,6 @@
 echo "------ run deploy_to_dev ------"
 
-echo "ALIAS_GITHUB_REPOSITORY: $ALIAS_GITHUB_REPOSITORY"
+echo "ALIAS_GITHUB_REPOSITORY: ${ALIAS_GITHUB_REPOSITORY}"
 APP_CHART_NAME=`echo ${ALIAS_GITHUB_REPOSITORY} | awk -F "/" '{print $2}'`
 echo "APP_CHART_NAME: ${APP_CHART_NAME}"
 
