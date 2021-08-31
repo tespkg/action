@@ -82,7 +82,7 @@ echo "push the latest SHA: ${GITHUB_SHA:0:8} to the manifest repo ${ALIAS_GITHUB
 git config user.name ${GITHUB_ACTOR}
 git config user.email ${GITHUB_ACTOR}@github.com
 git diff
-git add env-${TES_ENV}/${APP_CHART_NAME}
+git add ./${APP_CHART_NAME}
 git pull
 git commit -m "${GITHUB_REPOSITORY}_${GITHUB_JOB}_${GITHUB_SHA:0:8}_details:${CI_COMMIT_MESSAGE}"
 git push
