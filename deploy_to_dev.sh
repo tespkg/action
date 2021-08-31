@@ -65,7 +65,9 @@ git push
 ## error: failed to push some refs to 'git@github.com:tespkg/tes_manifests.git',
 ## usually caused by another repository pushing
 if [ $? == 1 ]; then
-    git pull
+    git stash
+    git pull -r
+    git stash apply
     git push
 fi
 echo -e "======================= \n\n you can check your application status with 'user/passwd:readonly/Te****g' at \n\n \033[31m https://g-argocd.fluxble.com/applications/${APP_CHART_NAME}\033[0m \n\n======================="
