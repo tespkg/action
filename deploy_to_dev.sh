@@ -54,7 +54,7 @@ fi
 echo "------ list latest common*.image.tag ------"
 yq r --printMode pv values.yaml "common*.image.tag"
 
-echo "push the latest SHA: ${GITHUB_SHA:0:8} to the manifest repo path: env-dev/${APP_CHART_NAME}"
+echo "push the latest SHA: ${GITHUB_SHA:0:8} to the manifest repo ${ALIAS_GITHUB_REPOSITORY}"
 git config user.name ${GITHUB_ACTOR}
 git config user.email ${GITHUB_ACTOR}@github.com
 git diff
