@@ -60,7 +60,7 @@ git config user.email ${GITHUB_ACTOR}@github.com
 git diff
 git add ./
 git commit -m "${GITHUB_REPOSITORY}_${GITHUB_JOB}_${GITHUB_SHA:0:8}_details:${CI_COMMIT_MESSAGE}"
-git pull
+# git pull
 git push
 ## error: failed to push some refs to 'git@github.com:tespkg/tes_manifests.git',
 ## usually caused by another repository pushing
