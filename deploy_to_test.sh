@@ -18,7 +18,7 @@ else
   mkdir -p env-${TES_ENV}/${APP_CHART_NAME}
   cp -r env-dev/${APP_CHART_NAME} env-${TES_ENV}/
   file="env-${TES_ENV}/${APP_CHART_NAME}/values-${TES_ENV}.yaml"
-  if [ ! -f  $file ];then touch env-${TES_ENV}/${APP_CHART_NAME}/values-${TES_ENV}.yaml fi
+  if [ ! -f  $file ];then touch env-${TES_ENV}/${APP_CHART_NAME}/values-${TES_ENV}.yaml; fi
 fi
 
 echo "------cd env-${TES_ENV}/${APP_CHART_NAME} -----"
