@@ -17,7 +17,7 @@ if [ -d "env-${TES_ENV}/${APP_CHART_NAME}" ];then
   if [ ! -d tmp ]; then mkdir tmp ; fi
   cp -v env-${TES_ENV}/${APP_CHART_NAME}/values-test*.yaml tmp/
   rm -rf env-${TES_ENV}/${APP_CHART_NAME}
-  cp -r env-${TES_ENV}/${APP_CHART_NAME} env-${TES_ENV}/
+  cp -r dev/${APP_CHART_NAME} env-${TES_ENV}/
   cp -v tmp/values-test*.yaml env-${TES_ENV}/${APP_CHART_NAME}/ && rm -rf tmp
 else 
   echo "mkdir -p env-${TES_ENV}/${APP_CHART_NAME}"
