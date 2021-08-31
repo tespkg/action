@@ -1,4 +1,5 @@
 echo "---------- run ${GITHUB_JOB} --------------"
+echo "TES_ENV is ${TES_ENV}"
 
 if [ "${TES_ENV}" == "" ]; then
     echo "skip ${GITHUB_JOB} } "
