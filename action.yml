@@ -1,0 +1,33 @@
+name: 'TESPKG deploy to test'
+description: 'deploy to test'
+inputs:
+  ALIAS_GITHUB_REPOSITORY:
+    description: 'ALIAS_GITHUB_REPOSITORY'
+    required: true
+    default: ${{ github.repository }}  
+  TES_ENV:
+    description: 'environment for deployment'
+    required: false
+  HELM_REPO:
+    description: 'HELM_REPO'
+    required: false
+    default: 'https://chartmuseum.dev.meeraspace.com/'
+  HELM_USER:
+    description: 'HELM_USER'
+    required: false
+    default: 'root'
+  HELM_PASSWORD:
+    description: 'HELM_PASSWORD'
+    required: false
+    default: 'root'
+runs:
+  using: "composite"
+  steps:
+    - run: ${{ github.action_path }}/deploy_to_test.sh
+      shell: bash
+      env:
+        TES_ENV: ${{ inputs.TES_ENV }}
+        HELM_REPO: ${{ inputs.HELM_REPO }}
+        HELM_USER: ${{ inputs.HELM_USER }}
+        HELM_PASSWORD: ${{ inputs.HELM_PASSWORD }}
+        ALIAS_GITHUB_REPOSITORY: ${{ inputs.ALIAS_GITHUB_REPOSITORY }}        
