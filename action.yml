@@ -15,11 +15,11 @@ inputs:
   HELM_USER:
     description: 'HELM_USER'
     required: false
-    default: 'root'
+    default: ${{ secrets.HELM_REPO_USER }}
   HELM_PASSWORD:
     description: 'HELM_PASSWORD'
     required: false
-    default: 'root'
+    default: ${{ secrets.HELM_REPO_PASSWORD }}
 runs:
   using: "composite"
   steps:
