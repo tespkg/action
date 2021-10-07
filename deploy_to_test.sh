@@ -82,7 +82,7 @@ cd ..
 # helmv3 repo add meeraspace ${{ secrets.HELM_REPO_QA }} --username=${{ secrets.HELM_USER }} --password=${{ secrets.HELM_PASSWORD }}
 helmv3 repo add meeraspace ${HELM_REPO} --username=${HELM_USER} --password=${HELM_PASSWORD}
 helmv3 plugin install https://github.com/chartmuseum/helm-push
-helmv3 push ${APP_CHART_NAME} meeraspace --force
+helmv3 cm-push ${APP_CHART_NAME} meeraspace --force || exit 1
 
 echo "push the latest SHA: ${GITHUB_SHA:0:8} to the manifest repo ${ALIAS_GITHUB_REPOSITORY}"
 git config user.name ${GITHUB_ACTOR}
