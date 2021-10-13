@@ -6,6 +6,7 @@ echo "APP_CHART_NAME: ${APP_CHART_NAME}"
 
 echo "SECOND_MODULE is ${SECOND_MODULE}"
 echo "THIRD_MODULE is ${THIRD_MODULE}"
+echo "FOURTH_MODULE is ${FOURTH_MODULE}"
 
 cd env-dev/${APP_CHART_NAME}
 if [ $? != 0 ]; then
@@ -29,6 +30,14 @@ echo "------ Name of the image.tag to be reserved:   `yq r values.yaml ${COMMON_
 TAG_FOR_THIRD_MODULE=`yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.tag`
 fi
 
+if [ "$FOURTH_MODULE" == "ignore" ] ;then
+echo "------ Reserved image for ${FOURTH_MODULE_FOR_COMMON} due to FOURTH_MODULE=ingore   ------"
+COMMON_FOR_FOURTH_MODULE=`echo ${FOURTH_MODULE_FOR_COMMON} | awk  '{print $1}'`
+echo "------ Name of the image.repo to be reserved:  `yq r values.yaml ${COMMON_FOR_FOURTH_MODULE}.image.repository`"
+echo "------ Name of the image.tag to be reserved:   `yq r values.yaml ${COMMON_FOR_FOURTH_MODULE}.image.tag`"
+TAG_FOR_FOURTH_MODULE=`yq r values.yaml ${COMMON_FOR_FOURTH_MODULE}.image.tag`
+fi
+
 echo "------ list current common*.image.tag ------"
 yq r --printMode pv values.yaml "common*.image.tag"
 echo "------ replace common*.image.tag to ${GITHUB_SHA:0:8} ------"
@@ -48,6 +57,14 @@ then
   echo "------ rollback the THIRD_MODULE ------"
   for w in `echo ${THIRD_MODULE_FOR_COMMON}`;
   do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_THIRD_MODULE} && yq r values.yaml ${w}.image.tag;
+  done
+fi
+
+if [ "$FOURTH_MODULE" == "ignore" ];
+then
+  echo "------ rollback the FOURTH_MODULE ------"
+  for w in `echo ${FOURTH_MODULE_FOR_COMMON}`;
+  do yq w -i values.yaml ${w}.image.tag ${TAG_FOR_FOURTH_MODULE} && yq r values.yaml ${w}.image.tag;
   done
 fi
 
