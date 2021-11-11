@@ -1,5 +1,5 @@
-name: 'TESPKG deploy to test'
-description: 'deploy to test'
+name: 'TESPKG push_incubator_chart'
+description: 'push_incubator_chart'
 inputs:
   ALIAS_GITHUB_REPOSITORY:
     description: 'ALIAS_GITHUB_REPOSITORY'
@@ -23,7 +23,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: ${{ github.action_path }}/deploy_to_test.sh
+    - run: ${{ github.action_path }}/push_incubator_chart.sh
       shell: bash
       env:
         TES_ENV: ${{ inputs.TES_ENV }}
