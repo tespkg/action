@@ -31,7 +31,7 @@ git config user.email ${GITHUB_ACTOR}@github.com
 # git diff
 git add ./${APP_CHART_NAME}
 git pull
-git commit -m "${GITHUB_REPOSITORY}_${{ github.event.inputs.APP_CHART_NAME }}/${{ github.event.inputs.release-version }} to ${{ github.event.inputs.env }}"
+git commit -m "${GITHUB_REPOSITORY}_${GITHUB_JOB}_${TAG}_details:${CI_COMMIT_MESSAGE}"
 # git commit -m "${{ github.event.inputs.APP_CHART_NAME }}/${{ github.event.inputs.release-version }} to ${{ github.event.inputs.env }}"
 git push
 ## error: failed to push some refs to 'git@github.com:tespkg/tes_manifests.git',
