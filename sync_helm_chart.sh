@@ -10,6 +10,7 @@ if [ "${TES_ENV}" == "" ]; then
 fi
 
 env=${TES_ENV}
+TAG=${IMAGE_TAG}
 cd env-${env}
 helmv3 repo add meeraspace ${HELM_REPO} --username=${HELM_USER} --password=${HELM_PASSWORD}
 
