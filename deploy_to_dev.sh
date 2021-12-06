@@ -7,6 +7,7 @@ echo "APP_CHART_NAME: ${APP_CHART_NAME}"
 if [ "$TES_ENV" == "mixed" ] ;then
   ## fetch  branch name
   if [ ! -d "env-${TES_ENV}/${APP_CHART_NAME}-${GITHUB_REF_NAME}" ];then
+    echo "cp -r env-dev/${APP_CHART_NAME} env-${TES_ENV}/${APP_CHART_NAME}-${GITHUB_REF_NAME}"
     cp -r env-dev/${APP_CHART_NAME} env-${TES_ENV}/${APP_CHART_NAME}-${GITHUB_REF_NAME}
   fi
   echo "run non-Standard deployment"
