@@ -1,30 +1,23 @@
-echo "------ run GITHUB_JOB: ${GITHUB_JOB} ------"
-echo "TES_ENV: ${TES_ENV}"
 echo "ALIAS_GITHUB_REPOSITORY: ${ALIAS_GITHUB_REPOSITORY}"
 APP_CHART_NAME=`echo ${ALIAS_GITHUB_REPOSITORY} | awk -F "/" '{print $2}'`
 echo "APP_CHART_NAME: ${APP_CHART_NAME}"
 
-if [ "$TES_ENV" == "mixed" ] ;then
-  ## fetch  branch name
-  if [ ! -d "env-${TES_ENV}/${APP_CHART_NAME}-${GITHUB_REF_NAME}" ];then
-    cp -r env-dev/${APP_CHART_NAME} env-${TES_ENV}/${APP_CHART_NAME}-${GITHUB_REF_NAME}
-  fi
-  echo "run non-Standard deployment"
-  echo "cd  env-${TES_ENV}/${APP_CHART_NAME}-${GITHUB_REF_NAME}"            
-  cd env-${TES_ENV}/${APP_CHART_NAME}-${GITHUB_REF_NAME}
-else
-  echo "run Standard deployment"
-  echo "cd env-${TES_ENV}/${APP_CHART_NAME}"
-  cd env-${TES_ENV}/${APP_CHART_NAME}
-  if [ $? != 0 ]; then
-      echo "err, no such directory env-dev/${APP_CHART_NAME} "
-      exit 1
-  fi
+## check the pipeline env TES_ENV 
+cd env-${TES_ENV}/${APP_CHART_NAME}
+if [ $? != 0 ]; then
+    echo "err, no such directory env-${TES_ENV}/${APP_CHART_NAME} "
+    exit 1
 fi
 
 echo "SECOND_MODULE is ${SECOND_MODULE}"
 echo "THIRD_MODULE is ${THIRD_MODULE}"
 echo "FOURTH_MODULE is ${FOURTH_MODULE}"
+
+IMAGE_TAG=`echo ${GITHUB_REF} | awk -F "/" '{print $3}'`
+if [[ ${IMAGE_TAG} == v* ]]; then IMAGE_TAG=`echo ${IMAGE_TAG:1}`; fi
+echo "replace appVersion and version "
+yq w -i Chart.yaml appVersion  --style=double ${IMAGE_TAG}
+yq w -i Chart.yaml version  --style=double ${IMAGE_TAG}
 
 if [ "$SECOND_MODULE" == "ignore" ] ;then
 echo "------  Reserved the image for ${SECOND_MODULE_FOR_COMMON} due to SECOND_MODULE='ingore'------"
@@ -34,7 +27,7 @@ echo "------ Name of the image.tag to be reserved:   `yq r values.yaml ${COMMON_
 TAG_FOR_SECOND_MODULE=`yq r values.yaml ${COMMON_FOR_SECOND_MODULE}.image.tag`
 fi
 if [ "$THIRD_MODULE" == "ignore" ] ;then
-echo "------ Reserved image for ${THIRD_MODULE_FOR_COMMON} due to THIRD_MODULE=ingore   ------"
+echo "------ Reserved image for ${THIRD_MODULE_FOR_COMMON} due to THIRD_MODULE='ingore------"
 COMMON_FOR_THIRD_MODULE=`echo ${THIRD_MODULE_FOR_COMMON} | awk  '{print $1}'`
 echo "------ Name of the image.repo to be reserved:  `yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.repository`"
 echo "------ Name of the image.tag to be reserved:   `yq r values.yaml ${COMMON_FOR_THIRD_MODULE}.image.tag`"
@@ -48,10 +41,11 @@ echo "------ Name of the image.tag to be reserved:   `yq r values.yaml ${COMMON_
 TAG_FOR_FOURTH_MODULE=`yq r values.yaml ${COMMON_FOR_FOURTH_MODULE}.image.tag`
 fi
 
-echo "------ list current common*.image.tag ------"
+echo "----- list current common*.image.tag -----"
 yq r --printMode pv values.yaml "common*.image.tag"
-echo "------ replace common*.image.tag to ${GITHUB_SHA:0:8} ------"
-yq w -i values.yaml "common*.image.tag" ${GITHUB_SHA:0:8}
+echo "------ replace common*.image.tag to ${IMAGE_TAG} ------"
+yq w -i values.yaml "common*.image.tag" ${IMAGE_TAG}
+echo "----- list latest common*.image.tag -----"
 yq r --printMode pv values.yaml "common*.image.tag"
 
 if [ "$SECOND_MODULE" == "ignore" ];
@@ -76,25 +70,11 @@ then
   done
 fi
 
-echo "------ list latest common*.image.tag ------"
+echo "----- list final common*.image.tag -----"
 yq r --printMode pv values.yaml "common*.image.tag"
 
-echo "push the latest SHA: ${GITHUB_SHA:0:8} to the manifest repo ${ALIAS_GITHUB_REPOSITORY}"
-git config user.name ${GITHUB_ACTOR}
-git config user.email ${GITHUB_ACTOR}@github.com
-git diff
-git add ./
-git pull
-git commit -m "${GITHUB_REPOSITORY}_${GITHUB_JOB}_${GITHUB_SHA:0:8}_details:${CI_COMMIT_MESSAGE}"
-git push
-## error: failed to push some refs to 'git@github.com:tespkg/tes_manifests.git',
-## usually caused by another repository pushing
-if [ $? == 1 ]; then
-    git stash
-    git pull -r
-    git stash apply
-    git push
-fi
-if [ "$TES_ENV" != "mixed" ] ;then
-echo -e "======================= \n\n you can check your application status with 'user/passwd:readonly/Te****g' at \n\n \033[31m https://g-argocd.fluxble.com/applications/${APP_CHART_NAME}\033[0m \n\n======================="          
-fi
+cd ..
+# helmv3 repo add meeraspace ${{ secrets.HELM_REPO_QA }} --username=${{ secrets.HELM_USER }} --password=${{ secrets.HELM_PASSWORD }}
+helmv3 repo add meeraspace ${HELM_REPO} --username=${HELM_USER} --password=${HELM_PASSWORD}
+helmv3 plugin install https://github.com/chartmuseum/helm-push
+helmv3 cm-push ${APP_CHART_NAME} meeraspace --force || exit 1

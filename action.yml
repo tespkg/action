@@ -5,10 +5,16 @@ inputs:
     description: 'ALIAS_GITHUB_REPOSITORY'
     required: true
     default: ${{ github.repository }}
+  TES_ENV:
+    description: 'environment for deployment'
+    required: false
+    default: dev
+
 runs:
   using: "composite"
   steps:
     - run: ${{ github.action_path }}/deploy_to_dev.sh
       shell: bash
       env:
+        TES_ENV: ${{ inputs.TES_ENV }}
         ALIAS_GITHUB_REPOSITORY: ${{ inputs.ALIAS_GITHUB_REPOSITORY }}
