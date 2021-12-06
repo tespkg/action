@@ -2,12 +2,6 @@ echo "ALIAS_GITHUB_REPOSITORY: ${ALIAS_GITHUB_REPOSITORY}"
 APP_CHART_NAME=`echo ${ALIAS_GITHUB_REPOSITORY} | awk -F "/" '{print $2}'`
 echo "APP_CHART_NAME: ${APP_CHART_NAME}"
 
-## check the pipeline env TES_ENV 
-cd env-${TES_ENV}/${APP_CHART_NAME}
-if [ $? != 0 ]; then
-    echo "err, no such directory env-${TES_ENV}/${APP_CHART_NAME} "
-    exit 1
-fi
 
 echo "SECOND_MODULE is ${SECOND_MODULE}"
 echo "THIRD_MODULE is ${THIRD_MODULE}"
@@ -18,6 +12,25 @@ if [[ ${IMAGE_TAG} == v* ]]; then IMAGE_TAG=`echo ${IMAGE_TAG:1}`; fi
 echo "replace appVersion and version "
 yq w -i Chart.yaml appVersion  --style=double ${IMAGE_TAG}
 yq w -i Chart.yaml version  --style=double ${IMAGE_TAG}
+
+if [[ ${IMAGE_TAG} =~ "mixedmanual" ]]; then
+  echo "run non-Standard deployment"
+  git branch
+  git rev-parse --abbrev-ref HEAD
+  git symbolic-ref --short HEAD
+  exit 1
+  echo "cd  env-mixed/${APP_CHART_NAME}-${BRANCH_NAME}"
+  cd env-mixed/${APP_CHART_NAME}-${BRANCH_NAME} || exit 1
+else
+  echo "run Standard deployment"
+  echo "cd env-${TES_ENV}/${APP_CHART_NAME}"
+  cd env-${TES_ENV}/${APP_CHART_NAME}
+  if [ $? != 0 ]; then
+      echo "err, no such directory env-${TES_ENV}/${APP_CHART_NAME} "
+      exit 1
+  fi
+fi  
+
 
 if [ "$SECOND_MODULE" == "ignore" ] ;then
 echo "------  Reserved the image for ${SECOND_MODULE_FOR_COMMON} due to SECOND_MODULE='ingore'------"
