@@ -11,10 +11,6 @@ IMAGE_TAG=`echo ${GITHUB_REF} | awk -F "/" '{print $3}'`
 
 if [[ ${IMAGE_TAG} =~ "mixedmanual" ]]; then
   echo "run non-Standard deployment"
-  git branch
-  git rev-parse --abbrev-ref HEAD
-  git symbolic-ref --short HEAD
-  exit 1
   echo "cd  env-mixed/${APP_CHART_NAME}-${BRANCH_NAME}"
   cd env-mixed/${APP_CHART_NAME}-${BRANCH_NAME} || exit 1
 else
