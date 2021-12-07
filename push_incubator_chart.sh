@@ -16,6 +16,9 @@ if [[ ${IMAGE_TAG} =~ "mixedmanual" ]]; then
   fi
   echo "run non-Standard deployment"
   echo "cd  env-mixed/${APP_CHART_NAME}-${BRANCH_NAME}"
+  pwd
+  ls
+
 else
   echo "run Standard deployment"
   echo "cd env-${TES_ENV}/${APP_CHART_NAME}"
