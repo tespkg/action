@@ -15,8 +15,8 @@ if [[ ${IMAGE_TAG} =~ "mixedmanual" ]]; then
     echo "cp -r env-dev/${APP_CHART_NAME} env-mixed/${APP_CHART_NAME}-${BRANCH_NAME}" 
   fi
   echo "run non-Standard deployment"
+  cd env-mixed/${APP_CHART_NAME}-${BRANCH_NAME}
   echo "cd env-mixed/${APP_CHART_NAME}-${BRANCH_NAME}"
-
 else
   echo "run Standard deployment"
   echo "cd env-${TES_ENV}/${APP_CHART_NAME}"
