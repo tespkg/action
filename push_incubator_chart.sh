@@ -10,9 +10,9 @@ echo "FOURTH_MODULE is ${FOURTH_MODULE}"
 IMAGE_TAG=`echo ${GITHUB_REF} | awk -F "/" '{print $3}'`
 
 if [[ ${IMAGE_TAG} =~ "mixedmanual" ]]; then
-  if [ ! -d "env-mixed/${APP_CHART_NAME}-${GITHUB_REF_NAME}" ];then
-    cp -r env-dev/${APP_CHART_NAME} env-mixed/${APP_CHART_NAME}-${GITHUB_REF_NAME} || exit 1
-    echo "cp -r env-dev/${APP_CHART_NAME} env-mixed/${APP_CHART_NAME}-${GITHUB_REF_NAME}" 
+  if [ ! -d "env-mixed/${APP_CHART_NAME}-${BRANCH_NAME}" ];then
+    cp -r env-dev/${APP_CHART_NAME} env-mixed/${APP_CHART_NAME}-${BRANCH_NAME} || exit 1
+    echo "cp -r env-dev/${APP_CHART_NAME} env-mixed/${APP_CHART_NAME}-${BRANCH_NAME}" 
   fi
   echo "run non-Standard deployment"
   echo "cd  env-mixed/${APP_CHART_NAME}-${BRANCH_NAME}"
