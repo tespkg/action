@@ -1,13 +1,7 @@
 yq -V
-if [ $? -eq 0 ]; then 
-  which yq
-  export PATH=$PWD/tools:$PATH
-else 
-  export PATH=$PWD/tools:$PATH
-fi
+export PATH=$PWD/tools:$PATH
 which yq
-
-
+yq -V
 
 echo "------ run GITHUB_JOB: ${GITHUB_JOB} ------"
 echo "TES_ENV: ${TES_ENV}"
