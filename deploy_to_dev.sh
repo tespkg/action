@@ -1,3 +1,13 @@
+yq -V
+if [ $? -eq 0 ]; then 
+  which yq
+else 
+  export PATH=$PWD/tools:$PATH
+  which yq
+fi
+
+
+
 echo "------ run GITHUB_JOB: ${GITHUB_JOB} ------"
 echo "TES_ENV: ${TES_ENV}"
 echo "ALIAS_GITHUB_REPOSITORY: ${ALIAS_GITHUB_REPOSITORY}"
