@@ -93,7 +93,7 @@ yq r --printMode pv values.yaml "common*.image.tag"
 echo "push the latest SHA: ${GITHUB_SHA:0:8} to the manifest repo ${ALIAS_GITHUB_REPOSITORY}"
 git config user.name ${GITHUB_ACTOR}
 git config user.email ${GITHUB_ACTOR}@github.com
-git diff
+# git diff
 git add ./
 git pull
 git commit -m "${GITHUB_REPOSITORY}_${GITHUB_JOB}_${GITHUB_SHA:0:8}_details:${CI_COMMIT_MESSAGE}"
