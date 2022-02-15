@@ -1,3 +1,13 @@
+yq -V
+if [ $? -eq 0 ]; then 
+  which yq
+else 
+  export PATH=$PWD/tools:$PATH
+  which yq
+  which helmv3
+fi
+
+
 echo "ALIAS_GITHUB_REPOSITORY: ${ALIAS_GITHUB_REPOSITORY}"
 APP_CHART_NAME=`echo ${ALIAS_GITHUB_REPOSITORY} | awk -F "/" '{print $2}'`
 echo "APP_CHART_NAME: ${APP_CHART_NAME}"
