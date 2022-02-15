@@ -3,7 +3,7 @@ if [ $? -eq 0 ]; then
   which yq
   export PATH=$PWD/tools:$PATH
 else 
-  which yq
+  export PATH=$PWD/tools:$PATH
   which helmv3
 fi
 which yq
