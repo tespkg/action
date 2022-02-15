@@ -62,9 +62,9 @@ fi
 
 echo "------ list current common*.image.tag ------"
 yq r --printMode pv values.yaml "common*.image.tag"
-if [ $? -eq 0 ]; then 
+if [ $? != 0 ]; then
   echo "--please check the yq "
-  exit 0
+  exit 1
 fi
 
 echo "------ replace common*.image.tag to ${GITHUB_SHA:0:8} ------"
