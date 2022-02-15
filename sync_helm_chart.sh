@@ -1,3 +1,12 @@
+yq -V
+if [ $? -eq 0 ]; then 
+  which yq
+else 
+  export PATH=$PWD/tools:$PATH
+  which yq
+  which helmv3
+fi
+
 APP_CHART_NAME=`echo ${ALIAS_GITHUB_REPOSITORY} | awk -F "/" '{print $2}'`
 IMAGE_TAG=`echo ${GITHUB_REF} | awk -F "/" '{print $3}'`
 if [[ ${IMAGE_TAG} == v* ]]; then IMAGE_TAG=`echo ${IMAGE_TAG:1}`; fi
