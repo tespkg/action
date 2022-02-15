@@ -1,11 +1,13 @@
 yq -V
 if [ $? -eq 0 ]; then 
+  export PATH=$PWD/tools:$PATH
   which yq
 else 
   export PATH=$PWD/tools:$PATH
-  which yq
   which helmv3
 fi
+which yq
+
 
 APP_CHART_NAME=`echo ${ALIAS_GITHUB_REPOSITORY} | awk -F "/" '{print $2}'`
 IMAGE_TAG=`echo ${GITHUB_REF} | awk -F "/" '{print $3}'`
