@@ -17,7 +17,7 @@ fi
 
 env=${TES_ENV}
 TAG=${IMAGE_TAG}
-cd env-${env}
+cd env-${env} || ! echo ' No such file or directory env-${env}' || exit 0
 helmv3 repo add meeraspace ${HELM_REPO} --username=${HELM_USER} --password=${HELM_PASSWORD}
 
 if [ -f "./${APP_CHART_NAME}/values-${env}.yaml" ];then
