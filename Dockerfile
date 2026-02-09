@@ -7,12 +7,12 @@ USER root
 # 3. Install missing build tools
 # build-essential: Includes make, gcc, g++
 # python3: Required for some npm install dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends 
-    build-essential 
-    python3-minimal 
-    python3-pip 
-    python3-venv 
-    && apt-get clean 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    python3-minimal \
+    python3-pip \
+    python3-venv \
+    && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # 4. Switch back to runner user (Mandatory)
