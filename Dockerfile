@@ -12,8 +12,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-minimal \
     python3-pip \
     python3-venv \
+    git-lfs \
+    && git lfs install \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+    
 # 4. Switch back to runner user (Mandatory)
 USER runner
