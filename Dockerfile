@@ -13,7 +13,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-pip \
     python3-venv \
     git-lfs \
+    wget \
+    ca-certificates \
     && git lfs install \
+    && wget https://github.com/mikefarah/yq/releases/download/3.4.1/yq_linux_amd64 -O /usr/bin/yq \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
