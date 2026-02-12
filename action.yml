@@ -1,25 +1,28 @@
-name: 'TESPKG Hello World'
-description: 'Greet someone'
+name: 'TESPKG Sync Init Container Tags'
+description: 'Sync initContainer.tag when initContainer.repository matches IMAGE_REPO'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  ALIAS_GITHUB_REPOSITORY:
+    description: 'Repository name (org/repo)'
     required: true
-    default: 'World'
-outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.random-number-generator.outputs.random-id }}
+    default: ${{ github.repository }}
+  TES_ENV:
+    description: 'Target environment'
+    required: false
+    default: dev
+  IMAGE_REPO:
+    description: 'Full image repository to match against (e.g., registry.gitlab.com/.../mafwr-chatbot)'
+    required: true
+  NEW_TAG:
+    description: 'Tag to set on matching initContainers'
+    required: true
 runs:
   using: "composite"
   steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}.
+    - run: ${{ github.action_path }}/sync_init_tags.sh
       shell: bash
-    - id: random-number-generator
-      run: echo "::set-output name=random-id::$(echo $RANDOM)"
-      shell: bash
-    - run: ${{ github.action_path }}/goodbye.sh
-      shell: bash
-    - run: ${{ github.action_path }}/install_yq_helm.sh
-      shell: bash
-    - run: ${{ github.action_path }}/deploy_to_dev.sh
-      shell: bash
+      env:
+        TES_ENV: ${{ inputs.TES_ENV }}
+        ALIAS_GITHUB_REPOSITORY: ${{ inputs.ALIAS_GITHUB_REPOSITORY }}
+        IMAGE_REPO: ${{ inputs.IMAGE_REPO }}
+        NEW_TAG: ${{ inputs.NEW_TAG }}
+        GITHUB_REF_NAME: ${{ github.ref_name }}
